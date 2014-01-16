@@ -109,17 +109,59 @@ Geometry::Vector<2, double> easy_mouse(GLFWwindow* w){
 std::vector<Geometry::Vector<4, double>> lines;
 
 void cube_loop(double ){
-	glBegin(GL_TRIANGLES);
+	glBegin(GL_QUADS);
 	for(auto& p : lines){
 		glVertex4dv((double*)&p);
 	}
 	glEnd();
 }
 
+void make_cube(){
+	lines.push_back({ 0.5, 0.5, 0.5, 0.5});
+	lines.push_back({-0.5, 0.5, 0.5, 0.5});
+	lines.push_back({-0.5,-0.5, 0.5, 0.5});
+	lines.push_back({ 0.5,-0.5, 0.5, 0.5});
+	
+	lines.push_back({ 0.5, 0.5,-0.5, 0.5});
+	lines.push_back({-0.5, 0.5,-0.5, 0.5});
+	lines.push_back({-0.5,-0.5,-0.5, 0.5});
+	lines.push_back({ 0.5,-0.5,-0.5, 0.5});
+	
+	lines.push_back({ 0.5, 0.5, 0.5, 0.5});
+	lines.push_back({-0.5, 0.5, 0.5, 0.5});
+	lines.push_back({-0.5, 0.5,-0.5, 0.5});
+	lines.push_back({ 0.5, 0.5,-0.5, 0.5});
+	
+	lines.push_back({-0.5,-0.5, 0.5, 0.5});
+	lines.push_back({ 0.5,-0.5, 0.5, 0.5});
+	lines.push_back({ 0.5,-0.5,-0.5, 0.5});
+	lines.push_back({-0.5,-0.5,-0.5, 0.5});
+	
+	
+	lines.push_back({ 0.5, 0.5, 0.5,-0.5});
+	lines.push_back({-0.5, 0.5, 0.5,-0.5});
+	lines.push_back({-0.5,-0.5, 0.5,-0.5});
+	lines.push_back({ 0.5,-0.5, 0.5,-0.5});
+	
+	lines.push_back({ 0.5, 0.5,-0.5,-0.5});
+	lines.push_back({-0.5, 0.5,-0.5,-0.5});
+	lines.push_back({-0.5,-0.5,-0.5,-0.5});
+	lines.push_back({ 0.5,-0.5,-0.5,-0.5});
+	
+	lines.push_back({ 0.5, 0.5, 0.5,-0.5});
+	lines.push_back({-0.5, 0.5, 0.5,-0.5});
+	lines.push_back({-0.5, 0.5,-0.5,-0.5});
+	lines.push_back({ 0.5, 0.5,-0.5,-0.5});
+	
+	lines.push_back({-0.5,-0.5, 0.5,-0.5});
+	lines.push_back({ 0.5,-0.5, 0.5,-0.5});
+	lines.push_back({ 0.5,-0.5,-0.5,-0.5});
+	lines.push_back({-0.5,-0.5,-0.5,-0.5});
+}
+
 void cube_test(GLFWwindow* ){
 	loop_op = cube_loop;
-	lines.push_back({1,1,1,1});
-	lines.push_back({0,0,0,0});
-	lines.push_back({0,1,2,1});
+	make_cube();
 	glLineWidth(2.5);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
