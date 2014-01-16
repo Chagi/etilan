@@ -119,7 +119,7 @@ void cube_loop(double ){
 void cube_test(GLFWwindow* ){
 	loop_op = cube_loop;
 	lines.push_back({1,1,1,1});
-	lines.push_back({0,0,0,1});
+	lines.push_back({0,0,0,0});
 	lines.push_back({0,1,2,1});
 	glLineWidth(2.5);
 }
