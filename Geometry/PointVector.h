@@ -12,6 +12,9 @@
 #define	POINTVECTOR_H
 
 #include <array>
+#include <ostream>
+#include <functional>
+#include <initializer_list>
 
 /*
  * Dim is the dimension of the PointVector, and Numberic is the type used to represent
@@ -21,6 +24,8 @@
 
 template<int Dim = 3, typename Numeric = double>
 class PointVector{
+public:
+    
     
 public:
 	PointVector();
@@ -29,8 +34,7 @@ public:
 	template<int D2>
 	PointVector(PointVector<D2> orig);
 	
-	template<typename... Tail>
-	PointVector(Tail... t);
+	PointVector(std::initializer_list<Numeric> list);
 
 private:
 	/*
@@ -54,6 +58,7 @@ public:
 	Numeric getdy() const;
 	Numeric getdz() const;
 	
+	Numeric& operator[](int i) const;
 	Numeric getMagnitude() const;
 	Numeric sum_comp() const;
 	
@@ -109,7 +114,7 @@ public:
 	static PointVector pow_comp(PointVector p, PointVector q);
 	
 	/*
-	 * a is considered max_comp(b) if all components of a are equal or bigger
+	 * a is considered max_comp(b) if all components of a are equal to or bigger
 	 * than their respective component in b
 	 */
 	
@@ -141,12 +146,27 @@ public:
 	static PointVector project(PointVector p, PointVector q);
 	static Numeric taxicab_distance(PointVector p, PointVector q);
 	
+	/*
+	 * Gerneral composant-wise unary and binary operator for user-defined operations.
+	 */
+	
+	PointVector& op_comp(std::function<Numeric(Numeric)> op);
+	PointVector& op_comp(std::function<Numeric(Numeric, Numeric)> op, PointVector p);
+	
 	std::array<bool, Dim> operator==	(PointVector p) const;
 	std::array<bool, Dim> operator!=	(PointVector p) const;
 	std::array<bool, Dim> operator> 	(PointVector p) const;
 	std::array<bool, Dim> operator< 	(PointVector p) const;
 	std::array<bool, Dim> operator>=	(PointVector p) const;
 	std::array<bool, Dim> operator<=	(PointVector p) const;
+	
+	/*
+	 * operator<< for ostream to be able to print PointVectors easily. This
+	 * requires that Numeric overloads operator << 
+	 */
+	
+	template<int D, typename N>
+	friend std::ostream& operator << (std::ostream& out, PointVector<D,N> d);
 	
 	/*
 	 * Cross_product is a class that handles computation of cross products by using 
@@ -175,6 +195,11 @@ namespace Boolarr{
 	bool any(std::array<bool, Dim> a);
 	template<int Dim>
 	bool most(std::array<bool, Dim> a);
+}
+
+namespace Geometry{
+	template<int Dimension, typename Numeral>
+	using Vector = PointVector<Dimension, Numeral>;
 }
 
 #endif	/* POINTVECTOR_H */

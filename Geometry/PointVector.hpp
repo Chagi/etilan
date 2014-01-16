@@ -11,6 +11,7 @@
 #include "PointVector.h"
 #include <math.h>
 #include <cassert>
+#include <stdexcept>
 
 template<int Dim, typename Numeric>
 PointVector<Dim, Numeric>::PointVector():
@@ -32,10 +33,12 @@ PointVector<Dim, Numeric>::PointVector(PointVector<D2> orig):
 }
 
 template<int Dim, typename Numeric>
-template<typename... Tail>
-PointVector<Dim, Numeric>::PointVector(Tail... t){
-	PointVector();
-	pconstruct(0, t...);
+PointVector<Dim, Numeric>::PointVector(std::initializer_list<Numeric> list){
+	int i = 0;
+	for(Numeric n : list){
+		comp[i] = n;
+		i++;
+	}
 }
 
 template<int Dim, typename Numeric>
@@ -88,6 +91,11 @@ Numeric PointVector<Dim, Numeric>::sum_comp() const{
 		sum += x;
 	}
 	return sum;
+}
+
+template<int Dim, typename Numeric>
+Numeric& PointVector<Dim, Numeric>::operator[](int i) const{
+	return comp[i];
 }
 
 template<int Dim, typename Numeric>
@@ -355,6 +363,8 @@ bool PointVector<Dim, Numeric>::is_eq_comp(PointVector<Dim, Numeric> p) const{
 template<int Dim, typename Numeric>
 PointVector<Dim, Numeric>& PointVector<Dim, Numeric>::make_unit(){
 	Numeric mag = getMagnitude();
+	if(mag==0)
+		throw std::length_error("Zero vector has no direction");
 	for(int i = 0; i < Dim; i++){
 		comp[i] /= mag; 
 	}
@@ -398,6 +408,22 @@ Numeric PointVector<Dim, Numeric>::taxicab_distance(PointVector p, PointVector q
 		res += abs(p.comp[i] - q.comp[i]);
 	}
 	return res;
+}
+
+template<int Dim, typename Numeric>
+PointVector<Dim, Numeric>& PointVector<Dim, Numeric>::op_comp(std::function<Numeric(Numeric)> op){
+	for(Numeric& n : comp){
+		n = op(n);
+	}
+	return *this;
+}
+
+template<int Dim, typename Numeric>
+PointVector<Dim, Numeric>& PointVector<Dim, Numeric>::op_comp(std::function<Numeric(Numeric, Numeric)> op, PointVector<Dim, Numeric> p){
+	for(int i = 0; i < Dim; i++){
+		comp[i] = op(comp[i], p.comp[i]);
+	}
+	return *this;
 }
 
 template<int Dim, typename Numeric>
@@ -480,6 +506,19 @@ PointVector<Dim, Numeric>::Cross_product::operator PointVector<7, Numeric> () co
 	res.comp[5] = q.comp[6] * p.comp[1] - q.comp[1] * p.comp[6] + q.comp[0] * p.comp[4] - q.comp[4] * p.comp[0] + q.comp[2] * p.comp[3] - q.comp[3] * p.comp[2];
 	res.comp[6] = q.comp[0] * p.comp[2] - q.comp[2] * p.comp[0] + q.comp[1] * p.comp[5] - q.comp[5] * p.comp[1] + q.comp[3] * p.comp[4] - q.comp[4] * p.comp[3];
 	return res;
+}
+
+template<int Dim, typename Numeric>
+std::ostream& operator<<(std::ostream& out, PointVector<Dim, Numeric> d) {
+	out << "{";
+	for(int i = 0; i < Dim; i++){
+		out << d.comp[i];
+		if(i < Dim - 1){
+			out << ", ";
+		}
+	}
+	out << "}";
+	return out;
 }
 
 template<int Dim, typename Numeric>
