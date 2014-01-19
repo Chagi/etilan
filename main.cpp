@@ -69,7 +69,7 @@ GLFWwindow* loadglfw(){
 		std::cerr<<"OpenGL initialization failed\n";
 		std::exit(1);
 	}
-	glfwWindowHint(GLFW_SAMPLES, 2);
+	glfwWindowHint(GLFW_SAMPLES, 4);
 	GLFWwindow* window = glfwCreateWindow(800, 600, "Thuquhux demo", 0, 0);
 	if(! window){
 		glfwTerminate();
@@ -114,88 +114,51 @@ std::vector<Geometry::Vector<4, double>> lines;
 
 void cube_loop(double ){
 	glPushMatrix();
-	glTranslatef(0,0,2);
-	glRotatef(glfwGetTime()*3, 1.0, 0.0, 0.0);
-	glBegin(GL_QUADS);
-	for(auto& p : lines){
-		glVertex4dv((double*)&p);
+	glTranslatef(0,0,4);
+	glRotated(glfwGetTime(), 0,1,0);
+	
+	for(int i = 0; i*8 < (signed)lines.size(); i++){
+		static double colors[][3] = {{0,0,1},
+		                             {0,1,0},
+		                             {1,0,0},
+		                             {0,1,1},
+		                             {1,1,0},
+		                             {1,0,1},
+		                             {1,1,1},
+		                             {0.5,0.5,0.5}};
+		glColor3dv(colors[i]);
+		glBegin(GL_QUADS);
+		for(int n = 0; n < 24; n++){
+			glVertex4dv((double*)&lines[i*8 + n]);
+			
+		}
+		glEnd();
 	}
-	glEnd();
 	glPopMatrix();
 }
 
-void make_cube(){
-	lines.push_back({ 0.5, 0.5, 0.5, 0.5});
-	lines.push_back({-0.5, 0.5, 0.5, 0.5});
-	lines.push_back({-0.5,-0.5, 0.5, 0.5});
-	lines.push_back({ 0.5,-0.5, 0.5, 0.5});
-	
-	lines.push_back({ 0.5, 0.5,-0.5, 0.5});
-	lines.push_back({-0.5, 0.5,-0.5, 0.5});
-	lines.push_back({-0.5,-0.5,-0.5, 0.5});
-	lines.push_back({ 0.5,-0.5,-0.5, 0.5});
-	
-	lines.push_back({ 0.5, 0.5, 0.5, 0.5});
-	lines.push_back({-0.5, 0.5, 0.5, 0.5});
-	lines.push_back({-0.5, 0.5,-0.5, 0.5});
-	lines.push_back({ 0.5, 0.5,-0.5, 0.5});
-	
-	lines.push_back({-0.5,-0.5, 0.5, 0.5});
-	lines.push_back({ 0.5,-0.5, 0.5, 0.5});
-	lines.push_back({ 0.5,-0.5,-0.5, 0.5});
-	lines.push_back({-0.5,-0.5,-0.5, 0.5});
-	
-	
-	lines.push_back({ 0.5, 0.5, 0.5,-1.5});
-	lines.push_back({-0.5, 0.5, 0.5,-1.5});
-	lines.push_back({-0.5,-0.5, 0.5,-1.5});
-	lines.push_back({ 0.5,-0.5, 0.5,-1.5});
-	
-	lines.push_back({ 0.5, 0.5,-0.5,-1.5});
-	lines.push_back({-0.5, 0.5,-0.5,-1.5});
-	lines.push_back({-0.5,-0.5,-0.5,-1.5});
-	lines.push_back({ 0.5,-0.5,-0.5,-1.5});
-	
-	lines.push_back({ 0.5, 0.5, 0.5,-1.5});
-	lines.push_back({-0.5, 0.5, 0.5,-1.5});
-	lines.push_back({-0.5, 0.5,-0.5,-1.5});
-	lines.push_back({ 0.5, 0.5,-0.5,-1.5});
-	
-	lines.push_back({-0.5,-0.5, 0.5,-1.5});
-	lines.push_back({ 0.5,-0.5, 0.5,-1.5});
-	lines.push_back({ 0.5,-0.5,-0.5,-1.5});
-	lines.push_back({-0.5,-0.5,-0.5,-1.5});
-	
-	
-	lines.push_back({-0.5,-0.5, 0.5, 0.5});
-	lines.push_back({ 0.5,-0.5, 0.5, 0.5});
-	lines.push_back({-0.5, 0.5,-0.5,-1.5});
-	lines.push_back({ 0.5, 0.5,-0.5,-1.5});
-	
-	lines.push_back({-0.5, 0.5,-0.5, 0.5});
-	lines.push_back({ 0.5, 0.5,-0.5, 0.5});
-	lines.push_back({-0.5,-0.5, 0.5,-1.5});
-	lines.push_back({ 0.5,-0.5, 0.5,-1.5});
-	
-	lines.push_back({-0.5,-0.5,-0.5, 0.5});
-	lines.push_back({ 0.5,-0.5,-0.5, 0.5});
-	lines.push_back({-0.5, 0.5, 0.5,-1.5});
-	lines.push_back({ 0.5, 0.5, 0.5,-1.5});
-	
-	lines.push_back({-0.5, 0.5, 0.5, 0.5});
-	lines.push_back({ 0.5, 0.5, 0.5, 0.5});
-	lines.push_back({-0.5,-0.5,-0.5,-1.5});
-	lines.push_back({ 0.5,-0.5,-0.5,-1.5});
-}
+extern void temp_cube(std::vector<PointVector<4>>& vec);
 
-void key_fn(GLFWwindow*, int, int, int, int){
-	
+void key_fn(GLFWwindow*, int a, int, int c, int){
+	if(c == GLFW_RELEASE)
+		return;
+	if(a == 65 || a == 83){
+		for(auto& l : lines){
+			rotate<0,3>(l, (74-a)/90);
+		}
+		std::cout<<a<<"\n";
+	}
+	if(a == 67 || a == 70){
+		for(auto& l : lines){
+			rotate<2,3>(l, (68.5-a)/15);
+		}
+	}
 }
 
 void cube_test(GLFWwindow* w){
 	loop_op = cube_loop;
 	glfwSetKeyCallback(w, key_fn);
-	make_cube();
+	temp_cube(lines);
 	glLineWidth(2.5);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }

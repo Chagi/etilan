@@ -7,7 +7,7 @@ void main(void){
 	gl_Position = project(gl_Vertex);
 	
 	vec3 lightPos = vec3(0.0, 1.0, 5.0);
-	vec4 col = vec4(0.7, 0.3, 0.7, 0.0);
+	vec4 col = vec4(1.0, 1.0, 1.0, 0.0);
 	
 	float dist = distance(gl_Position.xyz, lightPos);
 	float lightRadius = 5.0;
@@ -53,9 +53,9 @@ vec4 cross4(vec4 u, vec4 v, vec4 w){
 	f = v.z * w.w - v.w * w.z;
 	
 	result.x =   u.y*f - u.z*e + u.w*d;
-	result.y =   u.x*f - u.z*c + u.w*b;
+	result.y = - u.x*f + u.z*c - u.w*b;
 	result.z =   u.x*e - u.y*c + u.w*a;
-	result.w =   u.x*d - u.y*b + u.z*a;
+	result.w = - u.x*d + u.y*b - u.z*a;
 	
 	return result;
 }

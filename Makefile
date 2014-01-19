@@ -22,7 +22,7 @@ Shaders/Shaders
 
 #Classes
 CLS = \
-
+Geometry/Maze \
 
 #Classes with template methods
 CLT = \
@@ -30,7 +30,7 @@ CLT = \
 
 #Template Classes
 TCL = \
-Geometry/PointVector
+Geometry/PointVector \
 
 all: $(EXECUTABLE)
 
