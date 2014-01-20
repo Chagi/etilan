@@ -12,10 +12,12 @@ void main(void){
 	float dist = distance(gl_Position.xyz, lightPos);
 	float lightRadius = 5.0;
 	float denom = (dist/lightRadius + 1.0);
-	gl_FrontColor = (gl_Color * col * 2.0)/(denom*denom);
+	gl_FrontColor = (gl_Color * col);
 }
 
 vec4 project(vec4 position){
+	position.w += 2.0;
+	
 	vec4 from = vec4(0.0, 0.0, 0.0, 0.0);
 	vec4 to   = vec4(0.0, 0.0, 1.0, 0.0);
 	vec4 over = vec4(0.0, 0.0, 0.0, 1.0);
@@ -31,7 +33,7 @@ vec4 project(vec4 position){
 	vec4 v = position - from;
 	vec4 vp = v*viewmatrix;
 	
-	float t = 1.0 /tan(3.14/3.0);
+	float t = 2.0 /tan(3.14/3.0);
 	
 	position.x = vp.x*t/vp.w;
 	position.y = vp.y*t/vp.w;

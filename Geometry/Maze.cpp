@@ -87,41 +87,41 @@ namespace{
 		                         {position + PointVector<4>{+size,-size,-size,+size}},
 		                         {position + PointVector<4>{-size,-size,-size,+size}}};
 		
-		PointVector<4> pts4[] = {{position + PointVector<4>{-size,+size,-size,+size}},
-		                         {position + PointVector<4>{+size,+size,-size,+size}},
-		                         {position + PointVector<4>{+size,-size,-size,+size}},
-		                         {position + PointVector<4>{-size,-size,-size,+size}},
+		PointVector<4> pts4[] = {{position + PointVector<4>{-size,+size,+size,-size}},
+		                         {position + PointVector<4>{+size,+size,+size,-size}},
+		                         {position + PointVector<4>{+size,+size,-size,-size}},
+		                         {position + PointVector<4>{-size,+size,-size,-size}},
 		                         {position + PointVector<4>{-size,+size,+size,+size}},
 		                         {position + PointVector<4>{+size,+size,+size,+size}},
-		                         {position + PointVector<4>{+size,-size,+size,+size}},
-		                         {position + PointVector<4>{-size,-size,+size,+size}}};
+		                         {position + PointVector<4>{+size,+size,-size,+size}},
+		                         {position + PointVector<4>{-size,+size,-size,+size}}};
 		
-		PointVector<4> pts5[] = {{position + PointVector<4>{-size,+size,-size,+size}},
-		                         {position + PointVector<4>{+size,+size,-size,+size}},
-		                         {position + PointVector<4>{+size,-size,-size,+size}},
-		                         {position + PointVector<4>{-size,-size,-size,+size}},
-		                         {position + PointVector<4>{-size,+size,+size,+size}},
-		                         {position + PointVector<4>{+size,+size,+size,+size}},
+		PointVector<4> pts5[] = {{position + PointVector<4>{-size,-size,+size,-size}},
+		                         {position + PointVector<4>{+size,-size,+size,-size}},
+		                         {position + PointVector<4>{+size,-size,-size,-size}},
+		                         {position + PointVector<4>{-size,-size,-size,-size}},
+		                         {position + PointVector<4>{-size,-size,+size,+size}},
 		                         {position + PointVector<4>{+size,-size,+size,+size}},
-		                         {position + PointVector<4>{-size,-size,+size,+size}}};
+		                         {position + PointVector<4>{+size,-size,-size,+size}},
+		                         {position + PointVector<4>{-size,-size,-size,+size}}};
 		
-		PointVector<4> pts6[] = {{position + PointVector<4>{-size,+size,-size,+size}},
+		PointVector<4> pts6[] = {{position + PointVector<4>{+size,+size,-size,-size}},
+		                         {position + PointVector<4>{+size,+size,+size,-size}},
+		                         {position + PointVector<4>{+size,-size,+size,-size}},
+		                         {position + PointVector<4>{+size,-size,-size,-size}},
 		                         {position + PointVector<4>{+size,+size,-size,+size}},
-		                         {position + PointVector<4>{+size,-size,-size,+size}},
-		                         {position + PointVector<4>{-size,-size,-size,+size}},
-		                         {position + PointVector<4>{-size,+size,+size,+size}},
 		                         {position + PointVector<4>{+size,+size,+size,+size}},
 		                         {position + PointVector<4>{+size,-size,+size,+size}},
-		                         {position + PointVector<4>{-size,-size,+size,+size}}};
+		                         {position + PointVector<4>{+size,-size,-size,+size}}};
 		
-		PointVector<4> pts7[] = {{position + PointVector<4>{-size,+size,-size,+size}},
-		                         {position + PointVector<4>{+size,+size,-size,+size}},
-		                         {position + PointVector<4>{+size,-size,-size,+size}},
-		                         {position + PointVector<4>{-size,-size,-size,+size}},
+		PointVector<4> pts7[] = {{position + PointVector<4>{-size,+size,-size,-size}},
+		                         {position + PointVector<4>{-size,+size,+size,-size}},
+		                         {position + PointVector<4>{-size,-size,+size,-size}},
+		                         {position + PointVector<4>{-size,-size,-size,-size}},
+		                         {position + PointVector<4>{-size,+size,-size,+size}},
 		                         {position + PointVector<4>{-size,+size,+size,+size}},
-		                         {position + PointVector<4>{+size,+size,+size,+size}},
-		                         {position + PointVector<4>{+size,-size,+size,+size}},
-		                         {position + PointVector<4>{-size,-size,+size,+size}}};
+		                         {position + PointVector<4>{-size,-size,+size,+size}},
+		                         {position + PointVector<4>{-size,-size,-size,+size}}};
 		
 		PointVector<4> pts8[] = {{position + PointVector<4>{-size,+size,-size,-size}},
 		                         {position + PointVector<4>{+size,+size,-size,-size}},
@@ -134,10 +134,10 @@ namespace{
 		draw_cube(vec, pts1);
 		draw_cube(vec, pts2);
 		draw_cube(vec, pts3);
-		//draw_cube(vec, pts4);
-		//draw_cube(vec, pts5);
-		//draw_cube(vec, pts6);
-		//draw_cube(vec, pts7);
+		draw_cube(vec, pts4);
+		draw_cube(vec, pts5);
+		draw_cube(vec, pts6);
+		draw_cube(vec, pts7);
 		draw_cube(vec, pts8);
 	}
 }
@@ -155,9 +155,9 @@ Maze::Maze(int /*dim*/, int nr){
 	for(int i = 0; i < nr; i++)
 		getline(infile, maze);
 	for(size_t i = 0; i < maze.size() + 3; i += 4){
-		//Direction d = Direction(maze[i] - 77);
-		//int s = (maze[i+1] == '+') ? 1 : -1;
-		//int l = maze[i+2];
+		Direction d = Direction(maze[i] - 77);
+		int s = (maze[i+1] == '+') ? 1 : -1;
+		int l = maze[i+2];
 		
 	}
 }

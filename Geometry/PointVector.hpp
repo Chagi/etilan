@@ -560,8 +560,8 @@ void rotate(PointVector<4>& vec, double angle){
 	                                    {0,0,1,0},
 	                                    {0,0,0,1}};
 	rmat[P1][P1] = cos(angle);
-	rmat[P1][P2] = sin(angle);
-	rmat[P2][P1] =-sin(angle);
+	rmat[P1][P2] =-sin(angle);
+	rmat[P2][P1] = sin(angle);
 	rmat[P2][P2] = cos(angle);
 	PointVector<4, PointVector<4>> result;
 	vec[0] = rmat[0].mul_comp(vec).sum_comp();

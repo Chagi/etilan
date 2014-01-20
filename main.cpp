@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #include "Geometry/PointVector.h"
 #include "Shaders/Shaders.h"
@@ -114,10 +115,10 @@ std::vector<Geometry::Vector<4, double>> lines;
 
 void cube_loop(double ){
 	glPushMatrix();
-	glTranslatef(0,0,4);
-	glRotated(glfwGetTime(), 0,1,0);
+	glTranslatef(0,0,-1);
+	glRotated(glfwGetTime()*3, 0,1,0);
 	
-	for(int i = 0; i*8 < (signed)lines.size(); i++){
+	for(int i = 0; i*24 < (signed)lines.size(); i++){
 		static double colors[][3] = {{0,0,1},
 		                             {0,1,0},
 		                             {1,0,0},
@@ -126,13 +127,16 @@ void cube_loop(double ){
 		                             {1,0,1},
 		                             {1,1,1},
 		                             {0.5,0.5,0.5}};
+		glPushMatrix();
 		glColor3dv(colors[i]);
+			
 		glBegin(GL_QUADS);
 		for(int n = 0; n < 24; n++){
-			glVertex4dv((double*)&lines[i*8 + n]);
-			
+			glVertex4dv((double*)&lines[i*24 + n]);
 		}
 		glEnd();
+		
+		glPopMatrix();
 	}
 	glPopMatrix();
 }
