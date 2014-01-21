@@ -3,25 +3,26 @@
 vec4 project(vec4 position);
 vec4 cross4(vec4 a, vec4 b, vec4 c);
 
+vec4 from;
+vec4 to;
+vec4 over;
+vec4 up;
+
 void main(void){
 	gl_Position = project(gl_Vertex);
 	
-	vec3 lightPos = vec3(0.0, 1.0, 5.0);
 	vec4 col = vec4(1.0, 1.0, 1.0, 0.0);
-	
-	float dist = distance(gl_Position.xyz, lightPos);
-	float lightRadius = 5.0;
-	float denom = (dist/lightRadius + 1.0);
-	gl_FrontColor = (gl_Color * col);
+	gl_FrontColor = gl_Position;
+	gl_FrontSecondaryColor = from;
 }
 
 vec4 project(vec4 position){
 	position.w += 2.0;
 	
-	vec4 from = vec4(0.0, 0.0, 0.0, 0.0);
-	vec4 to   = vec4(0.0, 0.0, 1.0, 0.0);
-	vec4 over = vec4(0.0, 0.0, 0.0, 1.0);
-	vec4 up   = vec4(0.0,-1.0, 0.0, 0.0);
+	from = vec4(0.0, 0.0, 0.0, 0.0);
+	to   = vec4(0.0, 0.0, 1.0, 0.0);
+	over = vec4(0.0, 0.0, 0.0, 1.0);
+	up   = vec4(0.0,-1.0, 0.0, 0.0);
 	
 	mat4 viewmatrix;
 	

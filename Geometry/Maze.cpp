@@ -1,3 +1,4 @@
+#include <GLFW/glfw3.h>
 #include "Maze.h"
 #include <iostream>
 #include <fstream>
@@ -154,14 +155,27 @@ Maze::Maze(int /*dim*/, int nr){
 	std::string maze;
 	for(int i = 0; i < nr; i++)
 		getline(infile, maze);
+	PointVector<4> position{0,0,0,0};
 	for(size_t i = 0; i < maze.size() + 3; i += 4){
-		Direction d = Direction(maze[i] - 77);
-		int s = (maze[i+1] == '+') ? 1 : -1;
-		int l = maze[i+2];
-		
+		char d = maze[i];
+		PointVector<4> dir{d=='x'?1.0:0.0,d=='y'?1.0:0.0,d=='z'?1.0:0.0,d=='w'?1.0:0.0};
+		double s = (maze[i+1] == '+') ? 1.0 : -1.0;
+		int l = maze[i+2] - 48;
+		for(int i = 0; i < l; i++){
+			draw_cube<4>(quads, 1.0, position);
+			position += dir * s;
+		}
 	}
 }
 
 void Maze::move(Direction){
 
+}
+
+void Maze::draw(){
+	glBegin(GL_QUADS);
+	for(auto& i : quads){
+		glVertex4dv((double *)&i);
+	}
+	glEnd();
 }

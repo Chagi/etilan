@@ -60,23 +60,46 @@ void InitARBShader(){
 }
 
 void InitGLSLShader(){
-	std::string str = loadFile("Shaders/vertex.glsl");
-	char * prgrm = new char[str.size()];
-	strcpy(prgrm, str.c_str());
-	int lengths = str.size();
-	
-	int handle = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(handle, 1, (const char**)&prgrm, &lengths);
-	glCompileShader(handle);
-	
-	char result[4096];
-	int* l = nullptr;
-	glGetShaderInfoLog(handle, 4096, l, result);
-	
-	std::cout<<result;
-	
 	GLuint shaderprgrm = glCreateProgram();
-	glAttachShader(shaderprgrm, handle);
+	{
+		std::string str = loadFile("Shaders/vertex.glsl");
+		char * prgrm = new char[str.size()];
+		strcpy(prgrm, str.c_str());
+		int lengths = str.size();
+	
+		int handle = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(handle, 1, (const char**)&prgrm, &lengths);
+		glCompileShader(handle);
+	
+		char result[4096];
+		int* l = nullptr;
+		glGetShaderInfoLog(handle, 4096, l, result);
+		
+		if(result[0] != 0)
+			std::cout<<"\nVertex shader:\n"<<result;
+		
+		glAttachShader(shaderprgrm, handle);
+	}
+	{
+		std::string str = loadFile("Shaders/fragment.glsl");
+		char * prgrm = new char[str.size()];
+		strcpy(prgrm, str.c_str());
+		int lengths = str.size();
+	
+		int handle = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(handle, 1, (const char**)&prgrm, &lengths);
+		glCompileShader(handle);
+	
+		char result[4096];
+		int* l = nullptr;
+		glGetShaderInfoLog(handle, 4096, l, result);
+		
+		if(result[0] != 0)
+			std::cout<<"\nFragment shader:\n"<<result;
+	
+		glAttachShader(shaderprgrm, handle);
+	}
+	
 	glLinkProgram(shaderprgrm);
 	glUseProgram(shaderprgrm);
 	

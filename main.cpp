@@ -14,6 +14,7 @@
 #include <cmath>
 
 #include "Geometry/PointVector.h"
+#include "Geometry/Maze.h"
 #include "Shaders/Shaders.h"
 
 void demo_loop(GLFWwindow* widow);
@@ -112,32 +113,13 @@ Geometry::Vector<2, double> easy_mouse(GLFWwindow* w){
 }
 
 std::vector<Geometry::Vector<4, double>> lines;
+Maze m{3, 60};
 
 void cube_loop(double ){
 	glPushMatrix();
-	glTranslatef(0,0,-1);
-	glRotated(glfwGetTime()*3, 0,1,0);
-	
-	for(int i = 0; i*24 < (signed)lines.size(); i++){
-		static double colors[][3] = {{0,0,1},
-		                             {0,1,0},
-		                             {1,0,0},
-		                             {0,1,1},
-		                             {1,1,0},
-		                             {1,0,1},
-		                             {1,1,1},
-		                             {0.5,0.5,0.5}};
-		glPushMatrix();
-		glColor3dv(colors[i]);
-			
-		glBegin(GL_QUADS);
-		for(int n = 0; n < 24; n++){
-			glVertex4dv((double*)&lines[i*24 + n]);
-		}
-		glEnd();
-		
-		glPopMatrix();
-	}
+	glTranslatef(0,0,-1.15);
+	glRotated(glfwGetTime()*5, 0,1,0);
+	m.draw();
 	glPopMatrix();
 }
 
@@ -146,17 +128,6 @@ extern void temp_cube(std::vector<PointVector<4>>& vec);
 void key_fn(GLFWwindow*, int a, int, int c, int){
 	if(c == GLFW_RELEASE)
 		return;
-	if(a == 65 || a == 83){
-		for(auto& l : lines){
-			rotate<0,3>(l, (74-a)/90);
-		}
-		std::cout<<a<<"\n";
-	}
-	if(a == 67 || a == 70){
-		for(auto& l : lines){
-			rotate<2,3>(l, (68.5-a)/15);
-		}
-	}
 }
 
 void cube_test(GLFWwindow* w){

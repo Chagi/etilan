@@ -25,6 +25,7 @@ private:
 	
 public:
 	void move(Direction d);
+	void draw();
 };
 
 #endif /* MAZE_H */
