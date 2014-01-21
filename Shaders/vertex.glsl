@@ -9,10 +9,10 @@ vec4 over;
 vec4 up;
 
 void main(void){
+	gl_FrontColor = gl_Position;
 	gl_Position = project(gl_Vertex);
 	
 	vec4 col = vec4(1.0, 1.0, 1.0, 0.0);
-	gl_FrontColor = gl_Position;
 	gl_FrontSecondaryColor = from;
 }
 
