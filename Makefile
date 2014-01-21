@@ -18,7 +18,8 @@ EXECUTABLE = ./$(PROJ)
 
 #Scource code
 SRC = main \
-Shaders/Shaders
+Shaders/Shaders \
+Practices/CubeRot
 
 #Classes
 CLS = \
