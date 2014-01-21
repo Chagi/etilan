@@ -161,7 +161,7 @@ Maze::Maze(int /*dim*/, int nr){
 		PointVector<4> dir{d=='x'?1.0:0.0,d=='y'?1.0:0.0,d=='z'?1.0:0.0,d=='w'?1.0:0.0};
 		double s = (maze[i+1] == '+') ? 1.0 : -1.0;
 		int l = maze[i+2] - 48;
-		for(int i = 0; i < l; i++){
+		for(int i = 0; i < l+1; i++){
 			draw_cube<4>(quads, 1.0, position);
 			position += dir * s;
 		}
@@ -172,6 +172,10 @@ void Maze::move(PointVector<4> dir){
 	for(auto& i : quads){
 		i += dir;
 	}
+}
+
+void Maze::rotate(int axis, int dir){
+	
 }
 
 void Maze::draw(){

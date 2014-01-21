@@ -19,12 +19,13 @@ class Maze{
 public:
 	Maze(int dim, int nr);
 	
-private:
+public:
 	std::vector<PointVector<4>> quads;
 	std::vector<Direction> valid_steps;
 	
 public:
 	void move(PointVector<4> dir);
+	void rotate(int axis, int dir);
 	void draw();
 };
 

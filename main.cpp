@@ -47,7 +47,7 @@ void fix_gl_stuff(GLFWwindow* window){
 	
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0,0,-2, 0,0,1, 0,1,0);
+	gluLookAt(0,0,-3, 0,0,0, 0,1,0);
 }
 
 double get_time(){
@@ -93,7 +93,7 @@ void initgl(){
 	
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(50,1,0.1,1000);
+	gluPerspective(45,1,0.1,1000);
 	glMatrixMode(GL_MODELVIEW);
 }
 
@@ -117,8 +117,9 @@ Maze m{3, 100};
 
 void cube_loop(double ){
 	glPushMatrix();
-	glTranslatef(0,0,-1.15);
-	glRotated(-10, 1,1,0);
+	//glTranslatef(0,0,-1.15);
+	//glRotated(glfwGetTime(), 0,1,0);
+	//glScalef(2,2,2);
 	m.draw();
 	glPopMatrix();
 }
@@ -136,7 +137,10 @@ void key_fn(GLFWwindow*, int a, int, int c, int){
 			m.move(PointVector<4>{0,-1,0,0});
 			break;
 		case GLFW_KEY_K :
-			m.rotate
+			for(auto& i : m.quads){
+				rotate<0,3>(i, 3.14159265/2.0);
+			}
+			break;
 	}
 }
 
