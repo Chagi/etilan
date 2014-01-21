@@ -168,8 +168,10 @@ Maze::Maze(int /*dim*/, int nr){
 	}
 }
 
-void Maze::move(Direction){
-
+void Maze::move(PointVector<4> dir){
+	for(auto& i : quads){
+		i += dir;
+	}
 }
 
 void Maze::draw(){

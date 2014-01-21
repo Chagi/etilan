@@ -24,7 +24,7 @@ private:
 	std::vector<Direction> valid_steps;
 	
 public:
-	void move(Direction d);
+	void move(PointVector<4> dir);
 	void draw();
 };
 

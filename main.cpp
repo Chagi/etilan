@@ -113,12 +113,12 @@ Geometry::Vector<2, double> easy_mouse(GLFWwindow* w){
 }
 
 std::vector<Geometry::Vector<4, double>> lines;
-Maze m{3, 60};
+Maze m{3, 100};
 
 void cube_loop(double ){
 	glPushMatrix();
 	glTranslatef(0,0,-1.15);
-	glRotated(glfwGetTime()*5, 0,1,0);
+	glRotated(-10, 1,1,0);
 	m.draw();
 	glPopMatrix();
 }
@@ -128,6 +128,16 @@ extern void temp_cube(std::vector<PointVector<4>>& vec);
 void key_fn(GLFWwindow*, int a, int, int c, int){
 	if(c == GLFW_RELEASE)
 		return;
+	switch(a){
+		case GLFW_KEY_E :
+			m.move(PointVector<4>{0,1,0,0});
+			break;
+		case GLFW_KEY_D :
+			m.move(PointVector<4>{0,-1,0,0});
+			break;
+		case GLFW_KEY_K :
+			m.rotate
+	}
 }
 
 void cube_test(GLFWwindow* w){
