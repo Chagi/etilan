@@ -143,6 +143,10 @@ namespace{
 	}
 }
 
+void draw_cube_4(std::vector<PointVector<4>>& vec, double size, PointVector<4> pos){
+	draw_cube<4>(vec, size, pos);
+}
+
 void temp_cube(std::vector<PointVector<4>>& vec){
 	draw_cube<4>(vec, 1, {0,0,0,0});
 }

@@ -29,4 +29,6 @@ public:
 	void draw();
 };
 
+void draw_cube_4(std::vector<PointVector<4>>& vec, double size, PointVector<4> pos);
+
 #endif /* MAZE_H */
