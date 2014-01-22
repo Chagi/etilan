@@ -1,6 +1,7 @@
 #include <GLFW/glfw3.h>
 #include "../Geometry/PointVector.h"
 #include <vector>
+#include "../Geometry/Maze.h"
 
 extern void (*loop_op)(double time);
 
@@ -80,6 +81,7 @@ void cubeRot_loop(double ){
 	}
 	glEnd();
 	glPopMatrix();
+	
 }
 
 
@@ -89,6 +91,6 @@ void cubeRot_init(GLFWwindow* w){
 	cubeRot_rotation[1] = 0;
 	cubeRot_rotation[2] = 0;
 
-	loop_op = cubeRot_loop(5.0);
+	loop_op = cubeRot_loop;
 	glfwSetKeyCallback(w, cubeRot_key_fn);
 }
