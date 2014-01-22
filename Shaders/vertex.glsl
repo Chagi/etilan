@@ -8,37 +8,40 @@ vec4 to;
 vec4 over;
 vec4 up;
 
+varying vec4 w_pos;
+
 void main(void){
-	gl_FrontColor = gl_Position;
+	float color = gl_Position.w;
 	gl_Position = project(gl_Vertex);
+	color = abs (color - from.w)*5.5;
 	
-	vec4 col = vec4(1.0, 1.0, 1.0, 0.0);
-	gl_FrontSecondaryColor = from;
+	vec4 col = vec4(color, 1.0, 1.0, 0.0);
+	gl_FrontColor = col;
 }
 
 vec4 project(vec4 position){
-	position.w += 2.0;
+	position.w += 0.0;
 	
-	from = vec4(0.0, 0.0, 0.0, 0.0);
-	to   = vec4(0.0, 0.0, 1.0, 0.0);
-	over = vec4(0.0, 0.0, 0.0, 1.0);
-	up   = vec4(0.0,-1.0, 0.0, 0.0);
+	from = vec4(  0.0,  0.0,  0.0,  0.0);
+	to   = vec4(  0.0,  0.0,  0.0,  1.0);
+	over = vec4(  0.0,  0.0,  1.0,  0.0);
+	up   = vec4(  1.0,  0.0,  0.0,  0.0);
 	
-	mat4 viewmatrix;
+	vec4 d = normalize(to - from);
+	vec4 a = normalize(cross4(up, over, d));
+	vec4 b = normalize(cross4(over, d, a));
+	vec4 c = cross4(d, a, b);
 	
-	viewmatrix[0] = normalize(to - from);
-	viewmatrix[1] = normalize(cross4(up,over,viewmatrix[0]));
-	viewmatrix[2] = normalize(cross4(over,viewmatrix[0],viewmatrix[1]));
-	viewmatrix[3] = cross4(viewmatrix[0],viewmatrix[1],viewmatrix[2]);
+	mat4 viewmatrix = mat4(a, b, c, d);
 	
 	vec4 v = position - from;
 	vec4 vp = v*viewmatrix;
 	
-	float t = 2.0 /tan(3.14/3.0);
+	w_pos = vp;
 	
-	position.x = vp.x*t/vp.w;
-	position.y = vp.y*t/vp.w;
-	position.z = vp.z*t/vp.w;
+	position.x = vp.x /vp.w;
+	position.y = vp.y/vp.w;
+	position.z = vp.z/vp.w;
 	position.w = 1.0;
 	
 	return gl_ProjectionMatrix * gl_ModelViewMatrix * position;

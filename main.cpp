@@ -47,7 +47,7 @@ void fix_gl_stuff(GLFWwindow* window){
 	
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0,0,-2, 0,0,1, 0,1,0);
+	gluLookAt(0,0,-3, 0,0,0, 0,1,0);
 }
 
 double get_time(){
@@ -93,7 +93,7 @@ void initgl(){
 	
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(50,1,0.1,1000);
+	gluPerspective(45,1,0.1,1000);
 	glMatrixMode(GL_MODELVIEW);
 }
 
@@ -113,12 +113,13 @@ Geometry::Vector<2, double> easy_mouse(GLFWwindow* w){
 }
 
 std::vector<Geometry::Vector<4, double>> lines;
-Maze m{3, 60};
+Maze m{3, 100};
 
 void cube_loop(double ){
 	glPushMatrix();
 	glTranslatef(0,0,-1.15);
-	glRotated(glfwGetTime()*5, 0,1,0);
+	glRotated(-90, 0,1,0);
+	glScalef(0.9,0.9,0.9);
 	m.draw();
 	glPopMatrix();
 }
@@ -128,6 +129,19 @@ extern void temp_cube(std::vector<PointVector<4>>& vec);
 void key_fn(GLFWwindow*, int a, int, int c, int){
 	if(c == GLFW_RELEASE)
 		return;
+	switch(a){
+		case GLFW_KEY_E :
+			m.move(PointVector<4>{0,1,0,0});
+			break;
+		case GLFW_KEY_D :
+			m.move(PointVector<4>{0,-1,0,0});
+			break;
+		case GLFW_KEY_K :
+			for(auto& i : m.quads){
+				rotate<0,3>(i, 3.14159265/2.0);
+			}
+			break;
+	}
 }
 
 void cube_test(GLFWwindow* w){

@@ -569,5 +569,12 @@ void rotate(PointVector<4>& vec, double angle){
 	vec[2] = rmat[2].mul_comp(vec).sum_comp();
 	vec[3] = rmat[3].mul_comp(vec).sum_comp();
 }
-
+/*
+void rotate(PointVector<4>& v, int plane_a, int plane_b, double angle){
+	PointVector<4, PointVector<4>> rmat{{1,0,0,0},
+	                                    {0,1,0,0},
+	                                    {0,0,1,0},
+	                                    {0,0,0,1}};
+}
+*/
 #endif /*POINTVECTOR_CPP*/
