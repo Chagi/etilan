@@ -17,10 +17,10 @@ void main(void){
 		count++;
 	
 	if(count > 1)
-		discard;
+		count++;//discard;
 	
 	vec4 color = vec4(1.0, 0.0, 0.0, 1.0);
-	gl_FragColor = gl_Color/w_pos.w + color;
+	gl_FragColor = gl_Color /(w_pos.w*2) + color;
 	
 	
 }

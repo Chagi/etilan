@@ -117,9 +117,9 @@ Maze m{3, 100};
 
 void cube_loop(double ){
 	glPushMatrix();
-	//glTranslatef(0,0,-1.15);
-	//glRotated(glfwGetTime(), 0,1,0);
-	//glScalef(2,2,2);
+	glTranslatef(0,0,-1.15);
+	glRotated(-90, 0,1,0);
+	glScalef(0.9,0.9,0.9);
 	m.draw();
 	glPopMatrix();
 }
