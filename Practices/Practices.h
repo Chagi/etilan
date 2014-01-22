@@ -1,2 +1,2 @@
-std::string cubeRot_init();
+void cubeRot_init(GLFWwindow* w);
 std::string maze();

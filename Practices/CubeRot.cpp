@@ -13,37 +13,37 @@ void cubeRot_key_fn(GLFWwindow* , int a, int, int c, int){
 		return;
 	}
 	switch(a){
-	case 74:
+	case GLFW_KEY_J:
 		cubeRot_rotation[1] = 1;
 		cubeRot_rotation[2] = 2;
-		cubeRot_rotation[0] = 90;
+		cubeRot_rotation[0] = 45;
 		break;
-	case 76:
+	case GLFW_KEY_L:
 		cubeRot_rotation[1] = 1;
 		cubeRot_rotation[2] = 2;
-		cubeRot_rotation[0] = -90;
+		cubeRot_rotation[0] = -45;
 		break;
 
-	case 73:
+	case GLFW_KEY_I:
 		cubeRot_rotation[1] = 0;
-		cubeRot_rotation[2] = 1;
-		cubeRot_rotation[0] = 90;
+		cubeRot_rotation[2] = 2;
+		cubeRot_rotation[0] = 45;
 		break;
-	case 75:
+	case GLFW_KEY_K:
 		cubeRot_rotation[1] = 0;
-		cubeRot_rotation[2] = 1;
-		cubeRot_rotation[0] = -90;
+		cubeRot_rotation[2] = 2;
+		cubeRot_rotation[0] = -45;
 		break;
 
 	case 85:
-		cubeRot_rotation[1] = 1;
+		cubeRot_rotation[1] = 2;
 		cubeRot_rotation[2] = 3;
-		cubeRot_rotation[0] = 90;
+		cubeRot_rotation[0] = 45;
 		break;
 	case 79:
-		cubeRot_rotation[1] = 1;
+		cubeRot_rotation[1] = 2;
 		cubeRot_rotation[2] = 3;
-		cubeRot_rotation[0] = -90;
+		cubeRot_rotation[0] = -45;
 		break;
 
 
@@ -57,24 +57,24 @@ void cubeRot_loop(double ){
 		cubeRot_rotation[0]--;
 		for(PointVector<4>& i: cubeRot_cube){
 			if(cubeRot_rotation[1] == 1 && cubeRot_rotation[2] == 2)
-				rotate<1,2>(i,3.141592/45.0);
-			else if(cubeRot_rotation[1] == 1 && cubeRot_rotation[2] == 2)
-				rotate<0,1>(i,3.141592/45.0);
-			else if(cubeRot_rotation[1] == 1 && cubeRot_rotation[2] == 2)
-				rotate<1,3>(i,3.141592/45.0);
+				rotate<1,2>(i,3.141592/90.0);
+			else if(cubeRot_rotation[1] == 0 && cubeRot_rotation[2] == 2)
+				rotate<0,2>(i,3.141592/90.0);
+			else if(cubeRot_rotation[1] == 2 && cubeRot_rotation[2] == 3)
+				rotate<2,3>(i,3.141592/90.0);
 		}
 	}else if(cubeRot_rotation[0] < 0){
 		cubeRot_rotation[0]++;
 		for(PointVector<4>& i: cubeRot_cube){
 			if(cubeRot_rotation[1] == 1 && cubeRot_rotation[2] == 2)
-				rotate<1,2>(i,-3.141592/45.0);
-			else if(cubeRot_rotation[1] == 1 && cubeRot_rotation[2] == 2)
-				rotate<0,1>(i,-3.141592/45.0);
-			else if(cubeRot_rotation[1] == 1 && cubeRot_rotation[2] == 2)
-				rotate<1,3>(i,-3.141592/45.0);
+				rotate<1,2>(i,-3.141592/90.0);
+			else if(cubeRot_rotation[1] == 0 && cubeRot_rotation[2] == 2)
+				rotate<0,2>(i,-3.141592/90.0);
+			else if(cubeRot_rotation[1] == 2 && cubeRot_rotation[2] == 3)
+				rotate<2,3>(i,-3.141592/90.0);
 		}
 	}
-
+	glTranslated(0,0,20);
 	glBegin(GL_QUADS);
 	for(PointVector<4>& i: cubeRot_cube){
 		glVertex4dv((double*)&i);
@@ -86,11 +86,12 @@ void cubeRot_loop(double ){
 
 
 void cubeRot_init(GLFWwindow* w){
-	draw_cube_4(cubeRot_cube,1.0,PointVector<>{0,0,0,0});
+	draw_cube_4(cubeRot_cube,1.0,PointVector<4>{0,0,0,0});
 	cubeRot_rotation[0] = 0;
 	cubeRot_rotation[1] = 0;
 	cubeRot_rotation[2] = 0;
-
+	
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	loop_op = cubeRot_loop;
 	glfwSetKeyCallback(w, cubeRot_key_fn);
 }

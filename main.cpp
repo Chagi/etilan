@@ -16,6 +16,7 @@
 #include "Geometry/PointVector.h"
 #include "Geometry/Maze.h"
 #include "Shaders/Shaders.h"
+#include "Practices/Practices.h"
 
 void demo_loop(GLFWwindow* widow);
 GLFWwindow* loadglfw();
@@ -27,7 +28,7 @@ void (*loop_op)(double time);
 void cube_test(GLFWwindow* w);
 
 int main (){
-	loop_init = cube_test;
+	loop_init = cubeRot_init;
 	
 	auto window = loadglfw();
 	glewInit();
