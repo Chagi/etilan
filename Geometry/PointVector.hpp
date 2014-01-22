@@ -560,8 +560,8 @@ void rotate(PointVector<4>& vec, double angle){
 	                                    {0,0,1,0},
 	                                    {0,0,0,1}};
 	rmat[P1][P1] = cos(angle);
-	rmat[P1][P2] =-sin(angle);
-	rmat[P2][P1] = sin(angle);
+	rmat[P1][P2] = sin(angle);
+	rmat[P2][P1] =-sin(angle);
 	rmat[P2][P2] = cos(angle);
 	PointVector<4, PointVector<4>> result;
 	vec[0] = rmat[0].mul_comp(vec).sum_comp();
@@ -569,12 +569,34 @@ void rotate(PointVector<4>& vec, double angle){
 	vec[2] = rmat[2].mul_comp(vec).sum_comp();
 	vec[3] = rmat[3].mul_comp(vec).sum_comp();
 }
-/*
-void rotate(PointVector<4>& v, int plane_a, int plane_b, double angle){
+
+template<>
+inline void rotate<2,3>(PointVector<4>& vec, double angle){
 	PointVector<4, PointVector<4>> rmat{{1,0,0,0},
 	                                    {0,1,0,0},
 	                                    {0,0,1,0},
 	                                    {0,0,0,1}};
+	rmat[2][2] = cos(angle);
+	rmat[2][3] =-sin(angle);
+	rmat[3][2] = sin(angle);
+	rmat[3][3] = cos(angle);
+	PointVector<4, PointVector<4>> result;
+	vec[0] = rmat[0].mul_comp(vec).sum_comp();
+	vec[1] = rmat[1].mul_comp(vec).sum_comp();
+	vec[2] = rmat[2].mul_comp(vec).sum_comp();
+	vec[3] = rmat[3].mul_comp(vec).sum_comp();
 }
-*/
+
+/*
+inline void rotate(PointVector<4>& v, int p_a, int p_b, double angle){
+	PointVector<4, PointVector<4>> rmat{{1,0,0,0},
+	                                    {0,1,0,0},
+	                                    {0,0,1,0},
+	                                    {0,0,0,1}};
+	
+	vec[0] = rmat[0].mul_comp(vec).sum_comp();
+	vec[1] = rmat[1].mul_comp(vec).sum_comp();
+	vec[2] = rmat[2].mul_comp(vec).sum_comp();
+	vec[3] = rmat[3].mul_comp(vec).sum_comp();
+}*/
 #endif /*POINTVECTOR_CPP*/
