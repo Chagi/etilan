@@ -3,8 +3,8 @@
 varying vec4 w_pos;
 
 void main(void){
-	if(w_pos.w < 0.0)
-		discard;
+	//if(w_pos.w < 0.0)
+		//discard;
 	
 	int count = 0;
 	if(w_pos.x > 1 || w_pos.x < -1)

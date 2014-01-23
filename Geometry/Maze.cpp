@@ -60,7 +60,7 @@ namespace{
 	template<>
 	void draw_cube<4>(std::vector<PointVector<4>>& vec, double size, PointVector<4> position){
 		size /= 2.0;
-		position += PointVector<4>{0,0,0,0.7};
+		//position += PointVector<4>{0,0,0,0.7};
 		PointVector<4> pts1[] = {{position + PointVector<4>{-size,+size,-size,+size}},
 		                         {position + PointVector<4>{+size,+size,-size,+size}},
 		                         {position + PointVector<4>{+size,-size,-size,+size}},
