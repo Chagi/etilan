@@ -3,31 +3,33 @@
 vec4 project(vec4 position);
 vec4 cross4(vec4 a, vec4 b, vec4 c);
 
-vec4 from;
-vec4 to;
-vec4 over;
-vec4 up;
+uniform vec4 from;// = vec4(  0.0,  0.0,  0.0,  0.0);
+uniform vec4 to;//   = vec4(  0.0,  0.0,  0.0,  1.0);
+uniform vec4 over;// = vec4(  0.0,  0.0,  1.0,  0.0);
+uniform vec4 up;//  = vec4(  1.0,  0.0,  0.0,  0.0);
 
 varying vec4 w_pos;
+varying float w_test;
+varying vec4 cull_pos;
 
 void main(void){
 	float color = gl_Position.w;
+	if(color < 0.0)
+		w_test = 1.0;
+	if(color > 0.0)
+		w_test = 0.0;
 	gl_Position = project(gl_Vertex);
 	color = abs (color - from.w)*5.5;
 	
-	vec4 col = vec4(color, 1.0, 1.0, 0.0);
+	cull_pos = gl_Position;
+	vec4 col = gl_Position;
 	gl_FrontColor = col;
 }
 
 vec4 project(vec4 position){
 	position.w += 0.0;
 	
-	from = vec4(  0.0,  0.0,  0.0,  0.0);
-	to   = vec4(  0.0,  0.0,  0.0,  1.0);
-	over = vec4(  0.0,  0.0,  1.0,  0.0);
-	up   = vec4(  1.0,  0.0,  0.0,  0.0);
-	
-	vec4 d = normalize(to - from);
+	vec4 d = normalize(to);
 	vec4 a = normalize(cross4(up, over, d));
 	vec4 b = normalize(cross4(over, d, a));
 	vec4 c = cross4(d, a, b);

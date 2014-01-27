@@ -11,7 +11,7 @@
 #include <string>
 
 void InitARBShader();
-void InitGLSLShader();
+GLuint InitGLSLShader();
 std::string loadFile(std::string file);
 
 #endif	/* SHADERS_H */

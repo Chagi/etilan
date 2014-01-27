@@ -1,6 +1,8 @@
 #version 120
 
 varying vec4 w_pos;
+varying float w_test;
+varying vec4 cull_pos;
 
 void main(void){
 	if(w_pos.w < 0.0)

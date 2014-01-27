@@ -552,18 +552,17 @@ bool Boolarr::most(std::array<bool,Dim> a){
 	return temp >= Dim/2.0;
 }
 
-template<int P1, int P2>
-void rotate(PointVector<4>& vec, double angle){
+template<int P1, int P2, typename Numeric>
+void rotate(PointVector<4, Numeric>& vec, double angle){
 	static_assert(P1 < P2, "Invalid rotation");
-	PointVector<4, PointVector<4>> rmat{{1,0,0,0},
+	PointVector<4, PointVector<4, Numeric>> rmat{{1,0,0,0},
 	                                    {0,1,0,0},
 	                                    {0,0,1,0},
 	                                    {0,0,0,1}};
 	rmat[P1][P1] = cos(angle);
-	rmat[P1][P2] = sin(angle);
-	rmat[P2][P1] =-sin(angle);
+	rmat[P1][P2] =-sin(angle);
+	rmat[P2][P1] = sin(angle);
 	rmat[P2][P2] = cos(angle);
-	PointVector<4, PointVector<4>> result;
 	vec[0] = rmat[0].mul_comp(vec).sum_comp();
 	vec[1] = rmat[1].mul_comp(vec).sum_comp();
 	vec[2] = rmat[2].mul_comp(vec).sum_comp();
@@ -580,7 +579,6 @@ inline void rotate<2,3>(PointVector<4>& vec, double angle){
 	rmat[2][3] =-sin(angle);
 	rmat[3][2] = sin(angle);
 	rmat[3][3] = cos(angle);
-	PointVector<4, PointVector<4>> result;
 	vec[0] = rmat[0].mul_comp(vec).sum_comp();
 	vec[1] = rmat[1].mul_comp(vec).sum_comp();
 	vec[2] = rmat[2].mul_comp(vec).sum_comp();

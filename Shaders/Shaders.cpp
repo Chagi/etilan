@@ -59,7 +59,7 @@ void InitARBShader(){
 	}
 }
 
-void InitGLSLShader(){
+GLuint InitGLSLShader(){
 	GLuint shaderprgrm = glCreateProgram();
 	{
 		std::string str = loadFile("Shaders/vertex.glsl");
@@ -99,10 +99,9 @@ void InitGLSLShader(){
 	
 		glAttachShader(shaderprgrm, handle);
 	}
-	
 	glLinkProgram(shaderprgrm);
 	glUseProgram(shaderprgrm);
-	
+	return shaderprgrm;
 }
 
 std::string loadFile(std::string file){

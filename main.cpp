@@ -82,6 +82,12 @@ GLFWwindow* loadglfw(){
 	return window;
 }
 
+GLuint shader;
+PointVector<4, float> position{0,0,0,0};
+PointVector<4, float> lookat{0,0,0,1};
+PointVector<4, float> up{1,0,0,0};
+PointVector<4, float> over{0,0,1,0};
+
 void initgl(){
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0,0,0,0);
@@ -89,7 +95,7 @@ void initgl(){
 	glEnable(GL_BLEND);
 	glEnable(GL_LINE_SMOOTH);
 	
-	InitGLSLShader();
+	shader = InitGLSLShader();
 	
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -116,10 +122,22 @@ std::vector<Geometry::Vector<4, double>> lines;
 Maze m{3, 100};
 
 void cube_loop(double ){
+	static GLuint p = glGetUniformLocation(shader, "from");
+	static GLuint l = glGetUniformLocation(shader, "to");
+	static GLuint u = glGetUniformLocation(shader, "up");
+	static GLuint o = glGetUniformLocation(shader, "over");
+	lookat.make_unit();
+	up.make_unit();
+	over.make_unit();
+	glUniform4fv(p, 1, (float*)&position);
+	glUniform4fv(l, 1, (float*)&lookat);
+	glUniform4fv(u, 1, (float*)&up);
+	glUniform4fv(o, 1, (float*)&over);
+	
 	glPushMatrix();
-	glTranslatef(0,0,-1.15);
-	glRotated(-90, 0,1,0);
-	glScalef(0.9,0.9,0.9);
+	//glRotatef(glfwGetTime()*5, 1,0,0);
+	glTranslatef(0,0,0);
+	glScalef(0.3,0.3,0.3);
 	m.draw();
 	glPopMatrix();
 }
@@ -131,15 +149,30 @@ void key_fn(GLFWwindow*, int a, int, int c, int){
 		return;
 	switch(a){
 		case GLFW_KEY_E :
-			m.move(PointVector<4>{0,1,0,0});
+			position += lookat/10.0f;
 			break;
 		case GLFW_KEY_D :
-			m.move(PointVector<4>{0,-1,0,0});
+			position -= lookat/10.0f;
+			break;
+		case GLFW_KEY_L :
+			rotate<2,3>(lookat, 3.14159265/20.0);
+			rotate<2,3>(up, 3.14159265/20.0);
+			rotate<2,3>(over, 3.14159265/20.0);
+			break;
+		case GLFW_KEY_J :
+			rotate<2,3>(lookat, -3.14159265/20.0);
+			rotate<2,3>(up, -3.14159265/20.0);
+			rotate<2,3>(over, -3.14159265/20.0);
 			break;
 		case GLFW_KEY_K :
-			for(auto& i : m.quads){
-				rotate<0,3>(i, 3.14159265/2.0);
-			}
+			rotate<0,2>(lookat, 3.14159265/20.0);
+			rotate<0,2>(up, 3.14159265/20.0);
+			rotate<0,2>(over, 3.14159265/20.0);
+			break;
+		case GLFW_KEY_I :
+			rotate<0,2>(lookat, -3.14159265/20.0);
+			rotate<0,2>(up, -3.14159265/20.0);
+			rotate<0,2>(over, -3.14159265/20.0);
 			break;
 	}
 }
