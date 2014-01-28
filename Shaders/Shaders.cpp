@@ -100,6 +100,16 @@ GLuint InitGLSLShader(){
 		glAttachShader(shaderprgrm, handle);
 	}
 	glLinkProgram(shaderprgrm);
+	GLint link_ok = GL_FALSE;
+	glGetProgramiv(shaderprgrm, GL_LINK_STATUS, &link_ok);
+	if (!link_ok) 
+	{
+		char result[4096];
+		int l = 0;
+		glGetProgramInfoLog(shaderprgrm, 4096, &l, result);
+		std::cout<<"\nLink:\n"<<result;
+		std::cout.flush();
+	}
 	glUseProgram(shaderprgrm);
 	return shaderprgrm;
 }

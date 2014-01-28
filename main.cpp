@@ -118,7 +118,6 @@ Geometry::Vector<2, double> easy_mouse(GLFWwindow* w){
 	return Geometry::Vector<2, double>{x,y};
 }
 
-std::vector<Geometry::Vector<4, double>> lines;
 Maze m{3, 100};
 
 void cube_loop(double ){
@@ -135,7 +134,6 @@ void cube_loop(double ){
 	glUniform4fv(o, 1, (float*)&over);
 	
 	glPushMatrix();
-	//glRotatef(glfwGetTime()*5, 1,0,0);
 	glTranslatef(0,0,0);
 	glScalef(0.3,0.3,0.3);
 	m.draw();
@@ -154,25 +152,35 @@ void key_fn(GLFWwindow*, int a, int, int c, int){
 		case GLFW_KEY_D :
 			position -= lookat/10.0f;
 			break;
-		case GLFW_KEY_L :
-			rotate<2,3>(lookat, 3.14159265/20.0);
-			rotate<2,3>(up, 3.14159265/20.0);
-			rotate<2,3>(over, 3.14159265/20.0);
+		case GLFW_KEY_U :
+			rotate<2,3>(lookat, 3.14159265/90.0);
+			rotate<2,3>(up, 3.14159265/90.0);
+			rotate<2,3>(over, 3.14159265/90.0);
 			break;
-		case GLFW_KEY_J :
-			rotate<2,3>(lookat, -3.14159265/20.0);
-			rotate<2,3>(up, -3.14159265/20.0);
-			rotate<2,3>(over, -3.14159265/20.0);
+		case GLFW_KEY_O :
+			rotate<2,3>(lookat, -3.14159265/90.0);
+			rotate<2,3>(up, -3.14159265/90.0);
+			rotate<2,3>(over, -3.14159265/90.0);
 			break;
 		case GLFW_KEY_K :
-			rotate<0,2>(lookat, 3.14159265/20.0);
-			rotate<0,2>(up, 3.14159265/20.0);
-			rotate<0,2>(over, 3.14159265/20.0);
+			rotate<0,2>(lookat, 3.14159265/90.0);
+			rotate<0,2>(up, 3.14159265/90.0);
+			rotate<0,2>(over, 3.14159265/90.0);
 			break;
 		case GLFW_KEY_I :
-			rotate<0,2>(lookat, -3.14159265/20.0);
-			rotate<0,2>(up, -3.14159265/20.0);
-			rotate<0,2>(over, -3.14159265/20.0);
+			rotate<0,2>(lookat, -3.14159265/90.0);
+			rotate<0,2>(up, -3.14159265/90.0);
+			rotate<0,2>(over, -3.14159265/90.0);
+			break;
+		case GLFW_KEY_J :
+			rotate<1,2>(lookat, -3.14159265/90.0);
+			rotate<1,2>(up, -3.14159265/90.0);
+			rotate<1,2>(over, -3.14159265/90.0);
+			break;
+		case GLFW_KEY_L :
+			rotate<1,2>(lookat, 3.14159265/90.0);
+			rotate<1,2>(up, 3.14159265/90.0);
+			rotate<1,2>(over, 3.14159265/90.0);
 			break;
 	}
 }
@@ -180,7 +188,6 @@ void key_fn(GLFWwindow*, int a, int, int c, int){
 void cube_test(GLFWwindow* w){
 	loop_op = cube_loop;
 	glfwSetKeyCallback(w, key_fn);
-	temp_cube(lines);
 	glLineWidth(2.5);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }

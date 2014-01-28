@@ -6,7 +6,7 @@ vec4 cross4(vec4 a, vec4 b, vec4 c);
 uniform vec4 from;// = vec4(  0.0,  0.0,  0.0,  0.0);
 uniform vec4 to;//   = vec4(  0.0,  0.0,  0.0,  1.0);
 uniform vec4 over;// = vec4(  0.0,  0.0,  1.0,  0.0);
-uniform vec4 up;//  = vec4(  1.0,  0.0,  0.0,  0.0);
+uniform vec4 up;//   = vec4(  1.0,  0.0,  0.0,  0.0);
 
 varying vec4 w_pos;
 varying float w_test;
@@ -20,30 +20,25 @@ void main(void){
 		w_test = 0.0;
 	gl_Position = project(gl_Vertex);
 	color = abs (color - from.w)*5.5;
-	
+	w_pos = vec4(0.0, 0.0, 0.0, 0.0);
 	cull_pos = gl_Position;
 	vec4 col = gl_Position;
 	gl_FrontColor = col;
 }
 
 vec4 project(vec4 position){
-	position.w += 0.0;
-	
+
 	vec4 d = normalize(to);
 	vec4 a = normalize(cross4(up, over, d));
 	vec4 b = normalize(cross4(over, d, a));
 	vec4 c = cross4(d, a, b);
-	
-	mat4 viewmatrix = mat4(a, b, c, d);
-	
+
 	vec4 v = position - from;
-	vec4 vp = v*viewmatrix;
+	float s = 2.4142 / dot (v, d);
 	
-	w_pos = vp;
-	
-	position.x = vp.x /vp.w;
-	position.y = vp.y/vp.w;
-	position.z = vp.z/vp.w;
+	position.x = s * dot(v, a);
+	position.y = s * dot(v, b);
+	position.z = s * dot(v, c);
 	position.w = 1.0;
 	
 	return gl_ProjectionMatrix * gl_ModelViewMatrix * position;
