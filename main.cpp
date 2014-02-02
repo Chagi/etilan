@@ -16,8 +16,8 @@
 #include "Geometry/PointVector.h"
 #include "Geometry/Maze.h"
 #include "Shaders/Shaders.h"
-#include "Geometry/Face.h"
 #include "Geometry/Cube.h"
+#include "Geometry/DrawHandler.h"
 
 void demo_loop(GLFWwindow* widow);
 GLFWwindow* loadglfw();
@@ -34,6 +34,7 @@ int main (){
 	auto window = loadglfw();
 	glewInit();
 	initgl();
+	InitGLSLShader();
 	
 	demo_loop(window);
 	
@@ -97,10 +98,15 @@ void initgl(){
 	glMatrixMode(GL_MODELVIEW);
 }
 
+DrawHandler canvas{};
+Cube<3> b{{0,0,0,1}, 1.0};
 Cube<4> c{{0,0,0,1}, 1.0};
 
 void cube_loop(double ){
 	glRotatef(glfwGetTime()*5, 0,1,0);
+	glColor3d(1.0, 0.0, 0.0);
+	b.draw();
+	glColor3d(1.0, 1.0, 1.0);
 	c.draw();
 }
 

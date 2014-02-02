@@ -11,7 +11,7 @@
 #include "Face.h"
 #include "DrawHandler.h"
 
-DrawHandler canvas{};
+extern DrawHandler canvas;
 
 Face<2>::Face(PointVector<4> position, PointVector<4> plane1, PointVector<4> plane2):
 	pos{position},
@@ -20,15 +20,13 @@ Face<2>::Face(PointVector<4> position, PointVector<4> plane1, PointVector<4> pla
 {}
 
 void Face<2>::draw(){
-	glPushMatrix();
-		auto a = ( p1 - p2)/2.0;
-		auto b = ( p1 + p2)/2.0;
-		auto c = (-p1 + p2)/2.0;
-		auto d = (-p1 - p2)/2.0;
-		canvas.translate(pos);
-		canvas.separate(0.1);
-		canvas.drawQuad(a, b, c, d);
-	glPopMatrix();
+	auto a = ( p1 - p2)/2.0;
+	auto b = ( p1 + p2)/2.0;
+	auto c = (-p1 + p2)/2.0;
+	auto d = (-p1 - p2)/2.0;
+	canvas.translate(pos);
+	canvas.separate(0.1);
+	canvas.drawQuad(a, b, c, d);
 }
 
 Face<3>::Face(PointVector<4> position, PointVector<4> plane1,
