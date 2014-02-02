@@ -178,7 +178,7 @@ void Maze::move(PointVector<4> dir){
 	}
 }
 
-void Maze::rotate(int axis, int dir){
+void Maze::rotate(int, int){
 	
 }
 

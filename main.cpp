@@ -16,6 +16,8 @@
 #include "Geometry/PointVector.h"
 #include "Geometry/Maze.h"
 #include "Shaders/Shaders.h"
+#include "Geometry/Face.h"
+#include "Geometry/Cube.h"
 
 void demo_loop(GLFWwindow* widow);
 GLFWwindow* loadglfw();
@@ -82,12 +84,6 @@ GLFWwindow* loadglfw(){
 	return window;
 }
 
-GLuint shader;
-PointVector<4, float> position{0,0,0,0};
-PointVector<4, float> lookat{0,0,0,1};
-PointVector<4, float> up{1,0,0,0};
-PointVector<4, float> over{0,0,1,0};
-
 void initgl(){
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0,0,0,0);
@@ -95,95 +91,20 @@ void initgl(){
 	glEnable(GL_BLEND);
 	glEnable(GL_LINE_SMOOTH);
 	
-	shader = InitGLSLShader();
-	
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(45,1,0.1,1000);
 	glMatrixMode(GL_MODELVIEW);
 }
 
-Geometry::Vector<2, double> easy_mouse(GLFWwindow* w){
-	double x = 0, y = 0;
-	int dx = 0, dy = 0;
-
-	glfwGetCursorPos(w,&x,&y);
-	glfwGetWindowSize(w, &dx, &dy);
-
-	x = (x/double(dx) - x/(2.0*dx))*2;
-	y = (y/double(dy) - y/(2.0*dy))*2;
-	x = -(x - 0.5)*2;
-	y = -(y - 0.5)*2;
-	
-	return Geometry::Vector<2, double>{x,y};
-}
-
-Maze m{3, 100};
+Cube<4> c{{0,0,0,1}, 1.0};
 
 void cube_loop(double ){
-	static GLuint p = glGetUniformLocation(shader, "from");
-	static GLuint l = glGetUniformLocation(shader, "to");
-	static GLuint u = glGetUniformLocation(shader, "up");
-	static GLuint o = glGetUniformLocation(shader, "over");
-	lookat.make_unit();
-	up.make_unit();
-	over.make_unit();
-	glUniform4fv(p, 1, (float*)&position);
-	glUniform4fv(l, 1, (float*)&lookat);
-	glUniform4fv(u, 1, (float*)&up);
-	glUniform4fv(o, 1, (float*)&over);
-	
-	glPushMatrix();
-	glTranslatef(0,0,0);
-	glScalef(0.3,0.3,0.3);
-	m.draw();
-	glPopMatrix();
+	glRotatef(glfwGetTime()*5, 0,1,0);
+	c.draw();
 }
 
-extern void temp_cube(std::vector<PointVector<4>>& vec);
-
-void key_fn(GLFWwindow*, int a, int, int c, int){
-	if(c == GLFW_RELEASE)
-		return;
-	switch(a){
-		case GLFW_KEY_E :
-			position += lookat/10.0f;
-			break;
-		case GLFW_KEY_D :
-			position -= lookat/10.0f;
-			break;
-		case GLFW_KEY_U :
-			rotate<2,3>(lookat, 3.14159265/90.0);
-			rotate<2,3>(up, 3.14159265/90.0);
-			rotate<2,3>(over, 3.14159265/90.0);
-			break;
-		case GLFW_KEY_O :
-			rotate<2,3>(lookat, -3.14159265/90.0);
-			rotate<2,3>(up, -3.14159265/90.0);
-			rotate<2,3>(over, -3.14159265/90.0);
-			break;
-		case GLFW_KEY_K :
-			rotate<0,2>(lookat, 3.14159265/90.0);
-			rotate<0,2>(up, 3.14159265/90.0);
-			rotate<0,2>(over, 3.14159265/90.0);
-			break;
-		case GLFW_KEY_I :
-			rotate<0,2>(lookat, -3.14159265/90.0);
-			rotate<0,2>(up, -3.14159265/90.0);
-			rotate<0,2>(over, -3.14159265/90.0);
-			break;
-		case GLFW_KEY_J :
-			rotate<1,2>(lookat, -3.14159265/90.0);
-			rotate<1,2>(up, -3.14159265/90.0);
-			rotate<1,2>(over, -3.14159265/90.0);
-			break;
-		case GLFW_KEY_L :
-			rotate<1,2>(lookat, 3.14159265/90.0);
-			rotate<1,2>(up, 3.14159265/90.0);
-			rotate<1,2>(over, 3.14159265/90.0);
-			break;
-	}
-}
+void key_fn(GLFWwindow*, int a, int, int c, int){}
 
 void cube_test(GLFWwindow* w){
 	loop_op = cube_loop;

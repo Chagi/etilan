@@ -18,11 +18,12 @@ EXECUTABLE = ./$(PROJ)
 
 #Scource code
 SRC = main \
-Shaders/Shaders
+Shaders/Shaders \
 
 #Classes
 CLS = \
 Geometry/Maze \
+Geometry/DrawHandler \
 
 #Classes with template methods
 CLT = \
@@ -31,6 +32,8 @@ CLT = \
 #Template Classes
 TCL = \
 Geometry/PointVector \
+Geometry/Face \
+Geometry/Cube \
 
 all: $(EXECUTABLE)
 
