@@ -20,6 +20,7 @@ DrawHandler::DrawHandler():
 void DrawHandler::reset(){
 	separation = 1.0;
 	translation = PointVector<4>{0.0, 0.0, 0.0, 0.0};
+	rotation = 0.0;
 	eyepos = PointVector<4>{0.0, 0.0, 0.0, 0.0};
 }
 
@@ -31,13 +32,28 @@ void DrawHandler::translate(PointVector<4> pos){
 	translation = pos;
 }
 
+void DrawHandler::rotate(double angle){
+	rotation = angle;
+}
+
 void DrawHandler::moveCamera(PointVector<4> pos){
 	eyepos = pos;
+}
+
+void rotateXY(PointVector<4>& v, double angle){
+	v[0] = v[0]*cos(angle) + v[1]*-sin(angle);
+	v[1] = v[0]*sin(angle) + v[1]* cos(angle);
 }
 
 void DrawHandler::drawQuad(PointVector<4> a, PointVector<4> b, PointVector<4> c, PointVector<4> d){
 	glPushMatrix();
 	glBegin(GL_QUADS);
+	
+	::rotateXY(translation, rotation);
+	::rotateXY(a, rotation);
+	::rotateXY(b, rotation);
+	::rotateXY(c, rotation);
+	::rotateXY(d, rotation);
 	
 	a = (a - eyepos) * separation + translation;
 	b = (b - eyepos) * separation + translation;

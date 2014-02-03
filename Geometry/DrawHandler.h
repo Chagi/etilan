@@ -17,6 +17,7 @@ public:
 private:
 	double separation;
 	PointVector<4> translation;
+	double rotation;
 	
 	double retina_size;
 	PointVector<4> color;
@@ -28,7 +29,9 @@ public:
 	void reset();
 	
 	void separate(double sep);
+	void setColor(PointVector<4> c);
 	void translate(PointVector<4> pos);
+	void rotate(double angle);
 	
 	void setCamera(PointVector<4> pos, PointVector<4> lookat, 
 	                                   PointVector<4> up,
@@ -37,7 +40,7 @@ public:
 	void rotateCamera(int plane1, int plane2);
 	
 	void drawQuad(PointVector<4> a, PointVector<4> b, PointVector<4> c, PointVector<4> d);
-	void setColor(PointVector<4> c);
+	
 };
 
 #endif /* DRAWHANDLER_CPP */

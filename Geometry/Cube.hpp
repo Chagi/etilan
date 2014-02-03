@@ -21,22 +21,9 @@ Cube<3>::Cube(PointVector<4> pos, double size){
 }
 
 void Cube<3>::draw(){
-	glColor3f(1.0, 1.0, 1.0);
-	faces[0].draw();
-	glColor3f(0.0, 1.0, 1.0);
-	faces[1].draw();
-	glColor3f(1.0, 0.0, 1.0);
-	faces[2].draw();
-	glColor3f(1.0, 1.0, 0.0);
-	faces[3].draw();
-	glColor3f(0.0, 0.0, 1.0);
-	faces[4].draw();
-	glColor3f(1.0, 0.0, 0.0);
-	faces[5].draw();
-
-	//for(auto& f : faces){
-	//	f.draw();
-	//}
+	for(auto& f : faces){
+		f.draw();
+	}
 }
 
 Cube<4>::Cube(PointVector<4> pos, double size){

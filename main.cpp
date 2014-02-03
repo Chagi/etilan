@@ -104,20 +104,19 @@ Cube<4> c{{0,0,0,1}, 1.0};
 
 void cube_loop(double ){
 	glRotatef(30, -0.6, 1.0, 0.0);
-//	canvas.reset();
 	glColor3d(1.0, 0.0, 0.0);
+	canvas.reset();
 	b.draw();
 	
 	glColor3d(1.0, 1.0, 1.0);
 	canvas.separate(0.1);
+	canvas.rotate(glfwGetTime()/10.0);
 	c.draw();
 }
 
 void key_fn(GLFWwindow*, int a, int, int c, int){
 	if(c == GLFW_RELEASE)
 		return;
-	if(a == GLFW_KEY_A)
-		b.rotate(1,2);
 }
 
 void cube_test(GLFWwindow* w){
