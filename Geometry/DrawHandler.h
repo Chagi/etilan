@@ -30,6 +30,12 @@ public:
 	void separate(double sep);
 	void translate(PointVector<4> pos);
 	
+	void setCamera(PointVector<4> pos, PointVector<4> lookat, 
+	                                   PointVector<4> up,
+	                                   PointVector<4> over);
+	void moveCamera(PointVector<4> pos);
+	void rotateCamera(int plane1, int plane2);
+	
 	void drawQuad(PointVector<4> a, PointVector<4> b, PointVector<4> c, PointVector<4> d);
 	void setColor(PointVector<4> c);
 };

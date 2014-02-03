@@ -18,8 +18,9 @@ DrawHandler::DrawHandler():
 {}
 
 void DrawHandler::reset(){
-	separation = 0.0;
+	separation = 1.0;
 	translation = PointVector<4>{0.0, 0.0, 0.0, 0.0};
+	eyepos = PointVector<4>{0.0, 0.0, 0.0, 0.0};
 }
 
 void DrawHandler::separate(double sep){
@@ -30,14 +31,18 @@ void DrawHandler::translate(PointVector<4> pos){
 	translation = pos;
 }
 
+void DrawHandler::moveCamera(PointVector<4> pos){
+	eyepos = pos;
+}
+
 void DrawHandler::drawQuad(PointVector<4> a, PointVector<4> b, PointVector<4> c, PointVector<4> d){
 	glPushMatrix();
 	glBegin(GL_QUADS);
 	
-	a = a * separation + translation;
-	b = b * separation + translation;
-	c = c * separation + translation;
-	d = d * separation + translation;
+	a = (a - eyepos) * separation + translation;
+	b = (b - eyepos) * separation + translation;
+	c = (c - eyepos) * separation + translation;
+	d = (d - eyepos) * separation + translation;
 	
 	glVertex4d(a[0], a[1], a[2], a[3]);
 	glVertex4d(b[0], b[1], b[2], b[3]);

@@ -75,7 +75,7 @@ GLFWwindow* loadglfw(){
 		std::exit(1);
 	}
 	glfwWindowHint(GLFW_SAMPLES, 4);
-	GLFWwindow* window = glfwCreateWindow(800, 600, "Thuquhux demo", 0, 0);
+	GLFWwindow* window = glfwCreateWindow(880, 660, "Thuquhux demo", 0, 0);
 	if(! window){
 		glfwTerminate();
 		std::cerr<<"Window creation failed\n";
@@ -103,18 +103,26 @@ Cube<3> b{{0,0,0,1}, 1.0};
 Cube<4> c{{0,0,0,1}, 1.0};
 
 void cube_loop(double ){
-	glRotatef(glfwGetTime()*5, 0,1,0);
+	glRotatef(30, -0.6, 1.0, 0.0);
+//	canvas.reset();
 	glColor3d(1.0, 0.0, 0.0);
 	b.draw();
+	
 	glColor3d(1.0, 1.0, 1.0);
+	canvas.separate(0.1);
 	c.draw();
 }
 
-void key_fn(GLFWwindow*, int a, int, int c, int){}
+void key_fn(GLFWwindow*, int a, int, int c, int){
+	if(c == GLFW_RELEASE)
+		return;
+	if(a == GLFW_KEY_A)
+		b.rotate(1,2);
+}
 
 void cube_test(GLFWwindow* w){
 	loop_op = cube_loop;
 	glfwSetKeyCallback(w, key_fn);
-	glLineWidth(2.5);
+	glLineWidth(1.5);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }

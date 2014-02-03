@@ -25,7 +25,6 @@ void Face<2>::draw(){
 	auto c = (-p1 + p2)/2.0;
 	auto d = (-p1 - p2)/2.0;
 	canvas.translate(pos);
-	canvas.separate(0.1);
 	canvas.drawQuad(a, b, c, d);
 }
 
@@ -46,7 +45,6 @@ void Face<3>::draw(){
 	auto g = (-p[0] - p[1] - p[2])/2.0;
 	auto h = ( p[0] - p[1] - p[2])/2.0;
 	canvas.translate(pos);
-	canvas.separate(0.1);
 	canvas.drawQuad(a, b, c, d);
 	canvas.drawQuad(a, b, f, e);
 	canvas.drawQuad(e, f, g, h);

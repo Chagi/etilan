@@ -26,6 +26,7 @@ private:
 
 public:
 	void draw();
+	void rotate(int a, int b);
 };
 
 template<>
