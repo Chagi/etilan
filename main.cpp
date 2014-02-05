@@ -1,6 +1,6 @@
 /*
  * File: main.cpp
- * Authors: Charles Gilljam, Elias Forsberg
+ * Authors: Elias Forsberg
  *
  * Created on: January 16, 2014, 08:25
  */
@@ -110,7 +110,8 @@ void cube_loop(double ){
 	
 	glColor3d(1.0, 1.0, 1.0);
 	canvas.separate(0.1);
-	canvas.rotate(glfwGetTime()/10.0);
+	
+	canvas.rotate(glfwGetTime());
 	c.draw();
 }
 

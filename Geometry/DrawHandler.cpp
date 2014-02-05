@@ -41,24 +41,42 @@ void DrawHandler::moveCamera(PointVector<4> pos){
 }
 
 void rotateXY(PointVector<4>& v, double angle){
-	v[0] = v[0]*cos(angle) + v[1]*-sin(angle);
-	v[1] = v[0]*sin(angle) + v[1]* cos(angle);
+	v[0] = v[0]* cos(angle) + v[1]* sin(angle);
+	v[1] = v[1]* cos(angle) - v[0]* sin(angle);
+}
+
+namespace{
+	void rotate_point(PointVector<4>& point, PointVector<> axis, double angle){
+		axis.make_unit();
+		const PointVector<> r1{cos(angle) + axis.getdx()*axis.getdx()*(1 - cos(angle)),
+		                       axis.getdx()*axis.getdy()*(1 - cos(angle)) - axis.getdz()*sin(angle),
+		                       axis.getdx()*axis.getdz()*(1 - cos(angle)) + axis.getdy()*sin(angle)};
+		const PointVector<> r2{axis.getdy()*axis.getdx()*(1 - cos(angle)) + axis.getdz()*sin(angle),
+		                       cos(angle) + axis.getdy()*axis.getdy()*(1 - cos(angle)),
+		                       axis.getdy()*axis.getdz()*(1 - cos(angle)) - axis.getdx()*sin(angle)};
+		const PointVector<> r3{axis.getdz()*axis.getdx()*(1 - cos(angle)) - axis.getdy()*sin(angle),
+		                       axis.getdz()*axis.getdy()*(1 - cos(angle)) + axis.getdx()*sin(angle),
+		                       cos(angle) + axis.getdz()*axis.getdz()*(1 - cos(angle))};
+		const PointVector<4> tmp = point;
+		point[0] = PointVector<>::mul_comp(r1, tmp).sum_comp();
+		point[1] = PointVector<>::mul_comp(r2, tmp).sum_comp();
+		point[2] = PointVector<>::mul_comp(r3, tmp).sum_comp();
+	}
 }
 
 void DrawHandler::drawQuad(PointVector<4> a, PointVector<4> b, PointVector<4> c, PointVector<4> d){
 	glPushMatrix();
 	glBegin(GL_QUADS);
 	
-	::rotateXY(translation, rotation);
-	::rotateXY(a, rotation);
-	::rotateXY(b, rotation);
-	::rotateXY(c, rotation);
-	::rotateXY(d, rotation);
-	
 	a = (a - eyepos) * separation + translation;
 	b = (b - eyepos) * separation + translation;
 	c = (c - eyepos) * separation + translation;
 	d = (d - eyepos) * separation + translation;
+	
+	rotate_point(a, {0,0,1}, rotation);
+	rotate_point(b, {0,0,1}, rotation);
+	rotate_point(c, {0,0,1}, rotation);
+	rotate_point(d, {0,0,1}, rotation);
 	
 	glVertex4d(a[0], a[1], a[2], a[3]);
 	glVertex4d(b[0], b[1], b[2], b[3]);

@@ -28,7 +28,7 @@ template<int D2>
 PointVector<Dim, Numeric>::PointVector(PointVector<D2> orig):
 	comp {}
 {
-	constexpr int m = std::min(Dim, D2);
+	constexpr int m = (Dim < D2) ? Dim : D2;
 	std::copy(orig.comp, orig.comp + m, comp);
 }
 
